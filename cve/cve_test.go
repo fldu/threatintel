@@ -18,7 +18,7 @@ func TestGetNISTDataValid(t *testing.T) {
 		t.Error(err.Error())
 	}
 	if len(output) != 124 {
-		t.Error("something is wrong, expected result is 124, result is: " + strconv.Itoa(len(output))) // There is exactly 96 LOW vulnerabilities for this timeframe
+		t.Error("something is wrong, expected result is 124, result is: " + strconv.Itoa(len(output))) // There is exactly 124 LOW vulnerabilities for this timeframe
 	}
 }
 
@@ -42,7 +42,7 @@ func TestGetNISTDataIncoherentDate(t *testing.T) {
 	}
 	output, _ := GetNISTData(c)
 	if len(output) > 0 {
-		t.Error("There is an issue at NIST level, incoherent dates are returning something")
+		t.Error("there is an issue at NIST level, incoherent dates are returning something")
 	}
 }
 

@@ -61,7 +61,7 @@ func calculateNistLastPage(c utils.Config) (int, error) {
 		informations
 	*/
 	var data NistDataRaw
-	url := "https://services.nvd.nist.gov/rest/json/cves/1.0/?modStartDate=" + c.DayBegin + "T00:00:00:000%20UTC&modEndDate=" + c.DayEnd + "T00:00:00:000%20UTC&resultsPerPage=1&cvssV3Severity=" + c.Severity
+	url := "https://services.nvd.nist.gov/rest/json/cves/1.0/?pubStartDate=" + c.DayBegin + "T00:00:00:000%20UTC&pubEndDate=" + c.DayEnd + "T23:59:59:000%20UTC&resultsPerPage=1&cvssV3Severity=" + c.Severity
 
 	client := http.Client{
 		Timeout: 10 * time.Second,
