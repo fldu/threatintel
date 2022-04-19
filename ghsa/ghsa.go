@@ -69,16 +69,18 @@ func GetGHSAData(c utils.Config) ([]GHSAData, error) {
 			return []GHSAData{}, errors.New("JSON error while fetching GHSA: " + err.Error())
 		}
 		for _, i := range rawGHSAData.Data.SecurityAdvisories.Nodes {
-			output = append(output, GHSAData{
-				Summary:     i.Summary,
-				Description: i.Description,
-				GHSAID:      i.GhsaID,
-				PublishedAt: i.PublishedAt,
-				Score:       i.Cvss.Score,
-				CVSSScore:   i.Cvss.VectorString,
-				Severity:    i.Severity,
-				Permalink:   i.Permalink,
-			})
+			if i.Severity == c.Severity {
+				output = append(output, GHSAData{
+					Summary:     i.Summary,
+					Description: i.Description,
+					GHSAID:      i.GhsaID,
+					PublishedAt: i.PublishedAt,
+					Score:       i.Cvss.Score,
+					CVSSScore:   i.Cvss.VectorString,
+					Severity:    i.Severity,
+					Permalink:   i.Permalink,
+				})
+			}
 		}
 		return output, nil
 	default:
