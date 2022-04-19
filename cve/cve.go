@@ -2,7 +2,6 @@ package cve
 
 import (
 	"errors"
-	"regexp"
 	"sync"
 
 	"github.com/fldu/threatintel/utils"
@@ -17,16 +16,16 @@ func GetNISTData(c utils.Config) ([]NistData, error) {
 	var wg sync.WaitGroup
 	outChan := make(chan NistData)
 
-	// Here we test that we have a date of beginning and a date of end which are compliant
-	rDate := regexp.MustCompile(`\d{4}-\d{2}-\d{2}`)
-	if !rDate.MatchString(c.DayBegin) || !rDate.MatchString(c.DayEnd) {
-		return []NistData{}, errors.New("dates should be in format YYYY-MM-DD")
+	if err := utils.ValidateDateFormat(c.DayBegin); err != nil {
+		return []NistData{}, err
 	}
 
-	// Here we test that the severity is valid
-	rSeverity := regexp.MustCompile(`LOW|MEDIUM|HIGH|CRITICAL`)
-	if !rSeverity.MatchString(c.Severity) {
-		return []NistData{}, errors.New("severity is not valid, it should be LOW or MEDIUM or HIGH or CRITICAL")
+	if err := utils.ValidateDateFormat(c.DayEnd); err != nil {
+		return []NistData{}, err
+	}
+
+	if err := utils.ValidateSeverityFormat(c.Severity); err != nil {
+		return []NistData{}, err
 	}
 
 	lastPage, err := calculateNistLastPage(c)
